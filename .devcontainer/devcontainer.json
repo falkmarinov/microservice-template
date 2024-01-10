@@ -1,0 +1,49 @@
+{
+  "name": "web",
+
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+
+  "remoteUser": "coder",
+
+  "forwardPorts": [3000, 4200, 8080],
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "coder",
+      "userUid": 1000,
+      "userGid": 1000,
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/r3dpoint/devcontainer-features/tailwindcss-standalone-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "go.toolsManagement.checkForUpdates": "local",
+        "go.useLanguageServer": true,
+        "go.gopath": "/go"
+      },
+      "extensions": ["golang.Go", "bradlc.vscode-tailwindcss"]
+    }
+  },
+
+  "containerEnv": {
+    "GOROOT": "/usr/local/go",
+    "GOPATH": "/go",
+    "PATH": "/usr/local/go/bin:/go/bin:${PATH}"
+  },
+
+  // !! ADVANCED CONFIGURATION !! DONT TOUCH THE CONFIG BELOW UNLESS YOU KNOW WHAT YOU DO !!
+
+  // this allows ptrace based debuggers to work in the container
+  "capAdd": ["SYS_PTRACE"],
+  "securityOpt": ["seccomp=unconfined"],
+
+  // helps to deal with zombie processes
+  "init": true
+}
